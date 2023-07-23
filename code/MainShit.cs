@@ -59,7 +59,7 @@ public class MainShit
 		Log.Info("hi");
 		if (movecontroller is TerrorTown.WalkController wlk)
 		{
-			wlk.DuckEyeHeight = 55;
+			wlk.DuckEyeHeight = 52;
 			wlk.DuckHeight = 60;
 		}
 	}
