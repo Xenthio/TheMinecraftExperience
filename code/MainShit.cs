@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Sandbox;
@@ -36,15 +37,32 @@ public class MainShit
 		TerrorTown.WalkController.Gravity = (float)gravity;
 		TerrorTown.WalkController.JumpForce = jump;
 		TerrorTown.WalkController.StepSize = 20;
+		TerrorTown.WalkController.CrouchSpeed = (float)walk * 0.3f;
 		TerrorTown.WalkController.WalkSpeed = (float)walk;
 		TerrorTown.WalkController.DefaultSpeed = (float)walk * 1.3f;
 		TerrorTown.WalkController.SprintSpeed = (float)walk *1.3f;
 		TerrorTown.WalkController.ForceSimpleFriction = true;
 		TerrorTown.WalkController.SimpleFriction = friction;
+		PlayerLegs.ServerEnableLegs = false;
+		PlayerLegs.EnableLegs = false;
+
+
+
+
 		Log.Info("MC init");
 		player.Components.Add(new SmoothStepComponent());
-	} 
+	}
 
+	[Event("Player.PostMoveControllerSetup")]
+	public static void PostMoveControllerSetup(MovementComponent movecontroller)
+	{
+		Log.Info("hi");
+		if (movecontroller is TerrorTown.WalkController wlk)
+		{
+			wlk.DuckEyeHeight = 55;
+			wlk.DuckHeight = 60;
+		}
+	}
 	static float prevlength;
 	static float length;
 
