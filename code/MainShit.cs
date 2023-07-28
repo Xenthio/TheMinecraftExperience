@@ -39,8 +39,8 @@ public class MainShit
 		TerrorTown.WalkController.StepSize = 20;
 		TerrorTown.WalkController.CrouchSpeed = (float)walk * 0.3f;
 		TerrorTown.WalkController.WalkSpeed = (float)walk;
-		TerrorTown.WalkController.DefaultSpeed = (float)walk * 1.3f;
-		TerrorTown.WalkController.SprintSpeed = (float)walk *1.3f;
+		TerrorTown.WalkController.DefaultSpeed = (float)walk * 1.6f;
+		TerrorTown.WalkController.SprintSpeed = (float)walk *1.6f;
 		TerrorTown.WalkController.ForceSimpleFriction = true;
 		TerrorTown.WalkController.SimpleFriction = friction;
 		PlayerLegs.ServerEnableLegs = false;
@@ -92,7 +92,7 @@ public class MainShit
 		//GlStateManager.rotate(Math.abs(MathHelper.cos(f1 * (float)Math.PI - 0.2F) * f2) * 5.0F, 1.0F, 0.0F, 0.0F);
 		//GlStateManager.rotate(f3, 1.0F, 0.0F, 0.0F);
 		
-		var mult = (1f/64f)*2;
+		var mult = (1f/64f)*1;
 		Camera.Position += (new Vector3(MathF.Sin(f1 * MathF.PI) * f2 * 0.5F, 0.0f, -MathF.Abs(MathF.Cos(f1 * MathF.PI) * f2)) * 20) * mult;
 		var roll = (MathF.Sin(f1 * MathF.PI) * f2 * 3.0F) * mult;
 		var pitch1 = (MathF.Abs(MathF.Cos(f1 * MathF.PI - 0.2F) * f2) * 5.0f) * mult;
