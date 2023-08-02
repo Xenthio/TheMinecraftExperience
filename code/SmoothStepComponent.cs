@@ -52,7 +52,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 		startpos += Vector3.Up * 1;
 		var endpos = startpos;
 		endpos += wishvel * 64;
-		var tr = Trace.Ray(startpos, endpos).StaticOnly().Run();
+		var tr = Trace.Ray(startpos, endpos).Ignore(Stool).Ignore(Entity).WithoutTags("debris", "carriable").Run();
 		if (Debug) DebugOverlay.Line(tr.StartPosition, tr.EndPosition, Color.Yellow, depthTest: true);
 		if (!tr.Hit)
 		{
@@ -68,7 +68,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 		var endposupperblock = tr.EndPosition;
 		endposupperblock += (Vector3.Up * 40);
 		endposupperblock += tr.Normal * -1;
-		var trupperblock = Trace.Ray(startposupperblock, endposupperblock).Ignore(Stool).Ignore(Entity).Run();
+		var trupperblock = Trace.Ray(startposupperblock, endposupperblock).Ignore(Stool).Ignore(Entity).WithoutTags("debris", "carriable").Run();
 		if (Debug) DebugOverlay.Line(trupperblock.StartPosition, trupperblock.EndPosition, Color.Green, depthTest: true);
 		if (trupperblock.Hit)
 		{
@@ -82,7 +82,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 		startpos2 += (Vector3.Up * 40);
 		var endpos2 = startpos2;
 		endpos2 += (Vector3.Up * -2);
-		var trupdown = Trace.Ray(startpos2, endpos2).Ignore(Stool).Ignore(Entity).Run();
+		var trupdown = Trace.Ray(startpos2, endpos2).Ignore(Stool).Ignore(Entity).WithoutTags("debris", "carriable").Run();
 		if (Debug) DebugOverlay.Line(trupdown.StartPosition, trupdown.EndPosition, Color.Blue, depthTest: true);
 		
 		if (!trupdown.Hit)
@@ -92,11 +92,10 @@ public partial class SmoothStepComponent : SimulatedComponent
 		}
 
 		 
-
-		var tr2 = Trace.Ray(tr.EndPosition, Stool.Position + (Vector3.Down * 128)).StaticOnly().Run();
+		 
 		Stool.Position = tr.EndPosition;
 		Stool.Rotation = (tr.Normal * -1).EulerAngles.ToRotation().RotateAroundAxis(Vector3.Down, 90);
-		if (Debug) DebugOverlay.Line(tr2.StartPosition, tr2.EndPosition, Color.Red, depthTest: true);
+		//if (Debug) DebugOverlay.Line(tr2.StartPosition, tr2.EndPosition, Color.Red, depthTest: true);
 
 
 
