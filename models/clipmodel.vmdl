@@ -11,7 +11,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models\\dmx\\mesh\\clipmodel.dmx"
+						filename = "models/dmx/mesh/clipmodel.dmx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 1.0
@@ -33,16 +33,15 @@
 				[
 					{
 						_class = "DefaultMaterialGroup"
-						disabled = true
 						remaps = 
 						[
 							{
 								from = "materials/tools/toolsinvisible.vmat"
-								to = "dev/point_worldtext_default.vmat"
+								to = "materials/tools/toolsinvisible.vmat"
 							},
 						]
-						use_global_default = false
-						global_default_material = ""
+						use_global_default = true
+						global_default_material = "materials/tools/toolsinvisible.vmat"
 					},
 				]
 			},

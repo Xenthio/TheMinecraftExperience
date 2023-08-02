@@ -29,6 +29,9 @@ public partial class SmoothStepComponent : SimulatedComponent
 	public override void Simulate(IClient cl)
 	{
 		base.Simulate(cl);
+
+		 	 
+
 		if (Input.AnalogMove.Length <= 0)
 		{
 			Stool.Position = new Vector3(0, 0, -100000);
@@ -50,13 +53,14 @@ public partial class SmoothStepComponent : SimulatedComponent
 		var endpos = startpos;
 		endpos += wishvel * 64;
 		var tr = Trace.Ray(startpos, endpos).StaticOnly().Run();
-		if (Debug) DebugOverlay.Line(tr.StartPosition, tr.EndPosition);
+		if (Debug) DebugOverlay.Line(tr.StartPosition, tr.EndPosition, Color.Yellow, depthTest: true);
 		if (!tr.Hit)
 		{
 			Stool.Position = new Vector3(0, 0, -100000);
 			return;
 		}
 
+		if (Debug) DebugOverlay.Line(tr.EndPosition, tr.EndPosition + (Vector3.Up * 40), Color.Magenta, depthTest: true);
 
 		var startposupperblock = tr.EndPosition;
 		startposupperblock += (Vector3.Up * 40);
@@ -65,7 +69,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 		endposupperblock += (Vector3.Up * 40);
 		endposupperblock += tr.Normal * -1;
 		var trupperblock = Trace.Ray(startposupperblock, endposupperblock).Ignore(Stool).Ignore(Entity).Run();
-		if (Debug) DebugOverlay.Line(trupperblock.StartPosition, trupperblock.EndPosition, Color.Green);
+		if (Debug) DebugOverlay.Line(trupperblock.StartPosition, trupperblock.EndPosition, Color.Green, depthTest: true);
 		if (trupperblock.Hit)
 		{
 			Stool.Position = new Vector3(0, 0, -100000);
@@ -79,7 +83,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 		var endpos2 = startpos2;
 		endpos2 += (Vector3.Up * -2);
 		var trupdown = Trace.Ray(startpos2, endpos2).Ignore(Stool).Ignore(Entity).Run();
-		if (Debug) DebugOverlay.Line(trupdown.StartPosition, trupdown.EndPosition, Color.Blue);
+		if (Debug) DebugOverlay.Line(trupdown.StartPosition, trupdown.EndPosition, Color.Blue, depthTest: true);
 		
 		if (!trupdown.Hit)
 		{
@@ -87,13 +91,14 @@ public partial class SmoothStepComponent : SimulatedComponent
 			return;
 		}
 
+		 
 
+		var tr2 = Trace.Ray(tr.EndPosition, Stool.Position + (Vector3.Down * 128)).StaticOnly().Run();
 		Stool.Position = tr.EndPosition;
-
-		var tr2 = Trace.Ray(Stool.Position, Stool.Position + (Vector3.Down * 128)).StaticOnly().Run();
-		Stool.Position = tr2.EndPosition;
 		Stool.Rotation = (tr.Normal * -1).EulerAngles.ToRotation().RotateAroundAxis(Vector3.Down, 90);
-		if (Debug) DebugOverlay.Line(tr2.StartPosition, tr2.EndPosition, Color.Red);
+		if (Debug) DebugOverlay.Line(tr2.StartPosition, tr2.EndPosition, Color.Red, depthTest: true);
+
+
 
 		//checked if we're stuck in it
 		if (Entity.MovementController is TerrorTown.WalkController wlk && wlk.TraceBBox(Entity.Position,Entity.Position).StartedSolid)
@@ -101,6 +106,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 			Stool.Position = new Vector3(0, 0, -100000);
 			return;
 		}
+		if (Debug) DebugOverlay.Line(trupdown.EndPosition, trupdown.EndPosition + tr.Normal * -40, Color.Orange, depthTest: true);
 
 	} 
 }
