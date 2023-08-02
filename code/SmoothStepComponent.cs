@@ -25,6 +25,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 			Stool.Owner = Entity;
 		}
 	}
+	bool Debug = true;
 	public override void Simulate(IClient cl)
 	{
 		base.Simulate(cl);
@@ -49,20 +50,39 @@ public partial class SmoothStepComponent : SimulatedComponent
 		var endpos = startpos;
 		endpos += wishvel * 64;
 		var tr = Trace.Ray(startpos, endpos).StaticOnly().Run();
-		//DebugOverlay.Line(tr.StartPosition, tr.EndPosition);
+		if (Debug) DebugOverlay.Line(tr.StartPosition, tr.EndPosition);
 		if (!tr.Hit)
 		{
 			Stool.Position = new Vector3(0, 0, -100000);
 			return;
 		}
 
+
+		var startposupperblock = tr.EndPosition;
+		startposupperblock += (Vector3.Up * 40);
+		startposupperblock += tr.Normal * 1;
+
+		var endposupperblock = tr.EndPosition;
+		endposupperblock += (Vector3.Up * 40);
+		endposupperblock += tr.Normal * -1;
+
+		var trupperblock = Trace.Ray(startposupperblock, endposupperblock).Ignore(Stool).Ignore(Entity).Run();
+		if (Debug) DebugOverlay.Line(trupperblock.StartPosition, trupperblock.EndPosition, Color.Green);
+		if (trupperblock.Hit)
+		{
+			Stool.Position = new Vector3(0, 0, -100000);
+			return;
+		}
+
+
 		var startpos2 = tr.EndPosition;
 		startpos2 += tr.Normal * -1;
 		startpos2 += (Vector3.Up * 40);
 		var endpos2 = startpos2;
 		endpos2 += (Vector3.Up * -2);
-		var trupdown = Trace.Ray(startpos2, endpos2).StaticOnly().Run();
-		//DebugOverlay.Line(trupdown.StartPosition, trupdown.EndPosition, Color.Blue);
+		var trupdown = Trace.Ray(startpos2, endpos2).Ignore(Stool).Ignore(Entity).Run();
+		if (Debug) DebugOverlay.Line(trupdown.StartPosition, trupdown.EndPosition, Color.Blue);
+		
 		if (!trupdown.Hit)
 		{
 			Stool.Position = new Vector3(0, 0, -100000);
@@ -75,6 +95,14 @@ public partial class SmoothStepComponent : SimulatedComponent
 		var tr2 = Trace.Ray(Stool.Position, Stool.Position + (Vector3.Down * 128)).StaticOnly().Run();
 		Stool.Position = tr2.EndPosition;
 		Stool.Rotation = (tr.Normal * -1).EulerAngles.ToRotation().RotateAroundAxis(Vector3.Down, 90);
-		 
+		if (Debug) DebugOverlay.Line(tr2.StartPosition, tr2.EndPosition, Color.Red);
+
+		//checked if we're stuck in it
+		if (Entity.MovementController is TerrorTown.WalkController wlk && wlk.TraceBBox(Entity.Position,Entity.Position).StartedSolid)
+		{
+			Stool.Position = new Vector3(0, 0, -100000);
+			return;
+		}
+
 	} 
 }
