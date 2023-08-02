@@ -25,7 +25,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 			Stool.Owner = Entity;
 		}
 	}
-	bool Debug = true;
+	bool Debug = false;
 	public override void Simulate(IClient cl)
 	{
 		base.Simulate(cl);
@@ -61,11 +61,9 @@ public partial class SmoothStepComponent : SimulatedComponent
 		var startposupperblock = tr.EndPosition;
 		startposupperblock += (Vector3.Up * 40);
 		startposupperblock += tr.Normal * 1;
-
 		var endposupperblock = tr.EndPosition;
 		endposupperblock += (Vector3.Up * 40);
 		endposupperblock += tr.Normal * -1;
-
 		var trupperblock = Trace.Ray(startposupperblock, endposupperblock).Ignore(Stool).Ignore(Entity).Run();
 		if (Debug) DebugOverlay.Line(trupperblock.StartPosition, trupperblock.EndPosition, Color.Green);
 		if (trupperblock.Hit)
