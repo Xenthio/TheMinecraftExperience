@@ -85,7 +85,6 @@ public class MainShit
 	[Event("Player.PostMoveControllerSetup")]
 	public static void PostMoveControllerSetup(MovementComponent movecontroller)
 	{
-		Log.Info("hi");
 		if (movecontroller is TerrorTown.WalkController wlk)
 		{
 			wlk.DuckEyeHeight = 52;
