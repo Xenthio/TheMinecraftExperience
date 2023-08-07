@@ -11,6 +11,35 @@ namespace MinecraftExperience;
 
 public class MainShit
 {
+
+	public static OrthoLightEntity EnvLight;
+	[GameEvent.Tick.Server]
+	public static void TickSV()
+	{
+		//the following is for shader experiment
+		return;
+		if (EnvLight == null)
+		{
+			EnvLight = new OrthoLightEntity();
+			EnvLight.Position = Vector3.Up * 4096;
+			EnvLight.Rotation = Rotation.LookAt(Vector3.Down);
+			EnvLight.Brightness = 1;
+			EnvLight.DynamicShadows = true;
+			EnvLight.OrthoLightHeight = 8096;
+			EnvLight.OrthoLightWidth = 8096;
+			EnvLight.Range = 8096;
+		}
+		if (EnvLight != null)
+		{
+			EnvLight.Position = Vector3.Up * 4096;
+			EnvLight.Rotation = Rotation.LookAt(Vector3.Down);
+			EnvLight.Brightness = 1;
+			EnvLight.DynamicShadows = true;
+			EnvLight.OrthoLightHeight = 8096;
+			EnvLight.OrthoLightWidth = 8096;
+			EnvLight.Range = 8096;
+		}
+	}
 	[Event("Player.PostSpawn")]
 	public static void PostPlayerSpawn(TerrorTown.Player player)
 	{
