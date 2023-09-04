@@ -17,7 +17,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 		if (Game.IsServer)
 		{
 			Stool = new ModelEntity();
-			Stool.SetModel("models/clipmodel.vmdl");
+			Stool.SetModel("models/clipmodel2.vmdl");
 			Stool.SetupPhysicsFromModel(PhysicsMotionType.Keyframed);
 			Stool.Tags.Add("solid");
 			Stool.Tags.Add("nomovewith");
@@ -93,7 +93,7 @@ public partial class SmoothStepComponent : SimulatedComponent
 
 		 
 		 
-		Stool.Position = tr.EndPosition;
+		Stool.Position = tr.EndPosition + Vector3.Down;
 		Stool.Rotation = (tr.Normal * -1).EulerAngles.ToRotation().RotateAroundAxis(Vector3.Down, 90);
 		//if (Debug) DebugOverlay.Line(tr2.StartPosition, tr2.EndPosition, Color.Red, depthTest: true);
 
